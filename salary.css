@@ -1,0 +1,32 @@
+.container {
+    margin-left: 25%;
+    margin-top: 50px;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 3px;
+    }
+    
+    .div1 { 
+        border: 2px solid black;
+    }
+    .res {
+        border: 2px solid rgb(33, 63, 160);
+        width: 50%;
+        height: 50px;
+        margin-left: 25%;
+        margin-top: 50px;
+    }
+    .resShow{
+        width: 20%;
+        height: 80%;
+        margin: 1px;
+        border: 2px solid rgb(130, 33, 160);
+    }
+    .getRes{
+        margin-top: 10px;
+        margin-left: 25%;
+
+    }

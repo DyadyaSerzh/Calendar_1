@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./testDate.css">
+</head>
+<body>
+
+    <h1>Test Date</h1><h3><a href="salary.html">Розрахунок з/п</a></h3>
+  <div id="month-calendar">
+        <!-- Блок с заголовками (наименования месяца и года) и навигацией (на месяц вперед и назад) -->
+        <ul class="month">
+            <li class="prev"><i class="fas fa-angle-double-left"><<<</i></li>
+            <li class="next"><i class="fas fa-angle-double-right">>>></i></li>
+            <li class="month-name"></li>
+            <li class="year-name"></li>
+        </ul>
+         <!-- Блок с наименования дней недели, начинается с понедельника (Пн) -->
+        <ul class="weekdays">
+            <li>Пн</li>
+            <li>Вт</li>
+            <li>Ср</li>
+            <li>Чт</li>
+            <li>Пт</li>
+            <li>Сб</li>
+            <li>Н</li>
+        </ul>
+        <!-- табличная часть, дни месяца -->
+        <ul class="days">
+            <li>1</li>
+            <li>2</li>
+            <li>...</li>
+            <li>31</li>
+        </ul>
+    </div>
+    <div class="mtop">
+        <span class="workDays">-------</span><span>------ Денні зміни</span><br><br><span class="workNights">-------</span><span>------ Нічні зміни</span>
+    </div>
+    <br>
+    <label for="inputShift" class="inputShift">
+        <input type="radio" name="shiftLabel" class="inputDate" value=1 checked>Зміна А
+        <input type="radio" name="shiftLabel" class="inputDate" value=2>Зміна Б
+        <input type="radio" name="shiftLabel" class="inputDate" value=3>Зміна Ц
+        <input type="radio" name="shiftLabel" class="inputDate" value=4>Зміна Д
+    </label>
+    <div class="hours"></div>
+
+    <div class="alternative">
+        
+    </div>
+
+
+    
+</body>
+<script src="./testDate_1.js"></script>
+</html>

@@ -1,0 +1,161 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: sans-serif;
+    background-color: #dddddd;
+}
+
+/* месяцы и годы */
+#month-calendar{
+    width: 100%;
+    height: 100%;
+}
+
+.month{
+    margin: 0;
+    padding: 3rem 2rem 2rem;
+    background: #555555;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    list-style: none;
+}
+
+.month li{
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+span {
+    padding: 0px;
+    margin: 10px;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.mtop {
+    margin-top: 40px;
+    padding: 20px;
+}
+.workNights {
+    border: 10px solid #501e1e;
+    border-radius: 10%;
+
+}
+.workDays {
+    border: 10px solid #4120d3;
+    border-radius: 15%;
+
+}
+
+.month li.prev,
+.month li.next{
+    cursor: pointer;
+}
+
+.month li.prev{
+    float: left;
+}
+
+.month li.next{
+    float: right;
+}
+
+.month li.year-name{
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+/* дни недели */
+.weekdays{
+    margin: 0;
+    padding: 1rem 0;
+    background-color: #dddddd;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: left;
+}
+
+.weekdays li{
+    display: inline-block;
+    flex: 0 0 calc(100% / 7);
+    text-align: center;
+}
+
+/* дни */
+.days{
+    margin: 0;
+    padding: 1rem 0;
+    background-color: #eeeeee;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-content: flex-start;
+    height: 20rem;
+}
+
+.days li{
+    padding: 0.5rem;
+    list-style: none;
+    display: inline-block;
+    flex: 0 0 calc(100% / 7);
+    text-align: center;
+    color: #0a0a0a;
+    font-size: 1rem;
+    line-height: 1rem;
+    width:14% ;
+}
+
+.days li.date-now{
+    color: #000;
+    font-weight: 700;
+}
+.altCal {
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+}
+.altCal *{
+    border: 2px solid black;
+    text-align: center;
+    padding: 3px;
+    height: 25px;
+    font-size: small;
+    font-weight: bolder;
+
+}
+.weekend {
+    background-color: #e4d949;
+}
+.shiftA {
+    background-color: #4b6647;
+}
+
+.shiftB {
+    background-color: #473da5;
+}
+.shiftC {
+    background-color: #c09c39;
+}
+.shiftD {
+    background-color: #cc6d41;
+}
+
+@media screen and (max-width: 992px) {
+    .altCal {
+        width: 90%;
+    }
+  }
