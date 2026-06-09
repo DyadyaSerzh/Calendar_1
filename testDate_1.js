@@ -24,6 +24,8 @@ let nowDate = new Date(),
         day:1,
         shift:4
     };
+    let workDays={},
+    workNights={};
 
     let firstWorkShiftAct={
         day:1,
@@ -79,7 +81,10 @@ function correctDate(date) {
         let now_Year=date.getFullYear()
         let correct_Date=new Date(now_Year,now_Month,1)
         let testDate1=new Date(2023,8,1)
-        
+        let monthDays = new Date(date.getFullYear(), now_Month+1, 0).getDate();
+        console.log('monthDays',monthDays)
+
+
         let DateCount=Math.floor((correct_Date-testDate1)/(1000*24*3600))
         DateCount=DateCount-(Math.floor(DateCount/12))*12
         
@@ -108,53 +113,79 @@ function correctDate(date) {
 
         }
         console.log('firstWorkShift======>',firstWorkShiftAct)
+        createArrayOfShifts(monthDays, firstWorkShiftAct)
         
     }
 }
 correctDate(nowDate)
 // ----------------- create array of shifts
 
-function setMonthCalendar(year,month) {
-    console.log('firstWorkShift2====>',firstWorkShift)
-    
-    let workDays=[],
-    workNights=[];
-    function createWorkShifts({day,shift},monthDays){
-        for(d=1;d<=monthDays;d++){
-            if(shift==1){
-                if(day<3){
-                    workDays.push(d)
-                    day++
-                    }else{
-                    workDays.push(d)
-                    day=1
-                    shift++;
+
+function createArrayOfShifts(monthDays, firstWorkShiftAct){
+        
+    // ------------------create array of days
+        let day=firstWorkShiftAct.day
+        let shift=firstWorkShiftAct.shift
+        let nightShift
+        if(shift==1){
+                    nightShift=2
+                }else if(shift==2){
+                    nightShift=1
+                }else if(shift==3){
+                    nightShift=4
+                }else  if(shift==4){
+                    nightShift=3
                 }
-            }else if(shift==2){
-                if(day<3){
-                    day++
-                }else{
+
+        
+        for(i=1;i<=monthDays;i++){
+            workDays[i]={day,shift}
+            if(day+1<=3){day=day+1}
+            else 
+                if(shift==1){
+                    shift=3
                     day=1
-                    shift++
-                }
-            }else if(shift==3){
-                if(day<3){
-                    workNights.push(d)
-                    day++
-                }else{
-                    workNights.push(d)
-                    day=1;
-                    shift++
-                }
-            }else if(shift==4){
-                if(day<3){
-                    day++
-                }else{
+                }else if(shift==2){
+                    shift=4
                     day=1
+                }else if(shift==3){
+                    shift=2
+                    day=1
+                }else  if(shift==4){
                     shift=1
+                    day=1
                 }
-            }
         }
+       console.log('workDays====',workDays)
+       // ------------------create array of nights
+       for(i=1;i<=monthDays;i++){
+            workNights[i]={day,nightShift}
+            if(day+1<=3){day=day+1}
+            else 
+                if(nightShift==1){
+                    nightShift=3
+                    day=1
+                }else if(nightShift==2){
+                    nightShift=4
+                    day=1
+                }else if(nightShift==3){
+                    nightShift=2
+                    day=1
+                }else  if(nightShift==4){
+                    nightShift=1
+                    day=1
+                }
+        }
+       console.log('workNights====',workNights)
+
+
+};
+
+
+function setMonthCalendar(year,month) {
+    
+    
+    
         console.log(workDays)
         console.log(workNights)
         let DaysHours=workDays.length*11
@@ -163,7 +194,7 @@ function setMonthCalendar(year,month) {
         hours.innerHTML=`<H3>Денні години --- ${DaysHours}</H3><H3>Нічні зміни --- ${workNights.length}</H3><H1>Сумарні години  --- ${DaysHours+NightsHours}</H1><H1>Всього змін  --- ${SummOfShifts}</H1>`
         console.log('DaysHours',DaysHours)
         
-    };
+    
     
     let monthDays = new Date(year, month + 1, 0).getDate(),
         monthDaysPrev = new Date(year, month, 0).getDate(),
