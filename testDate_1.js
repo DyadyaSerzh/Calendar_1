@@ -23,7 +23,9 @@ let nowDate = new Date(),
     firstWorkShift={
         day:1,
         shift:4
-    };
+    },
+    checkedShift=2 ;
+
     let workDays={},
     workNights={};
 
@@ -113,7 +115,7 @@ function correctDate(date) {
 
         }
         console.log('firstWorkShift======>',firstWorkShiftAct)
-        createArrayOfShifts(monthDays, firstWorkShiftAct)
+        createArrayOfShifts(monthDays, firstWorkShiftAct,now_Month,now_Year)
         
     }
 }
@@ -122,8 +124,10 @@ correctDate(nowDate)
 
 
 function createArrayOfShifts(monthDays, firstWorkShiftAct){
+    arrayOfShifts={1:{workDays:[],workNights:[]},2:{workDays:[],workNights:[]},3:{workDays:[],workNights:[]},4:{workDays:[],workNights:[]}}
         
     // ------------------create array of days
+
         let day=firstWorkShiftAct.day
         let shift=firstWorkShiftAct.shift
         let nightShift
@@ -140,6 +144,7 @@ function createArrayOfShifts(monthDays, firstWorkShiftAct){
         
         for(i=1;i<=monthDays;i++){
             workDays[i]={day,shift}
+            arrayOfShifts[shift].workDays.push(i)
             if(day+1<=3){day=day+1}
             else 
                 if(shift==1){
@@ -160,6 +165,7 @@ function createArrayOfShifts(monthDays, firstWorkShiftAct){
        // ------------------create array of nights
        for(i=1;i<=monthDays;i++){
             workNights[i]={day,nightShift}
+            arrayOfShifts[nightShift].workNights.push(i)
             if(day+1<=3){day=day+1}
             else 
                 if(nightShift==1){
@@ -177,6 +183,8 @@ function createArrayOfShifts(monthDays, firstWorkShiftAct){
                 }
         }
        console.log('workNights====',workNights)
+       console.log('arrayOfShifts====',arrayOfShifts[checkedShift])
+       setMonthCalendar(nowYear,nowMonth)
 
 
 };
@@ -188,10 +196,10 @@ function setMonthCalendar(year,month) {
     
         console.log(workDays)
         console.log(workNights)
-        let DaysHours=workDays.length*11
-        let NightsHours=workNights.length*11
-        let SummOfShifts=(workNights.length)+(workDays.length)
-        hours.innerHTML=`<H3>Денні години --- ${DaysHours}</H3><H3>Нічні зміни --- ${workNights.length}</H3><H1>Сумарні години  --- ${DaysHours+NightsHours}</H1><H1>Всього змін  --- ${SummOfShifts}</H1>`
+        let DaysHours=arrayOfShifts[checkedShift].workDays.length*11
+        let NightsHours=arrayOfShifts[checkedShift].workNights.length*11
+        let SummOfShifts=(arrayOfShifts[checkedShift].workNights.length)+(arrayOfShifts[checkedShift].workDays.length)
+        hours.innerHTML=`<H3>Денні години --- ${DaysHours}</H3><H3>Нічні зміни --- ${arrayOfShifts[checkedShift].workNights.length}</H3><H1>Сумарні години  --- ${DaysHours+NightsHours}</H1><H1>Всього змін  --- ${SummOfShifts}</H1>`
         console.log('DaysHours',DaysHours)
         
     
@@ -220,17 +228,16 @@ function setMonthCalendar(year,month) {
     daysContainer.innerHTML = monthDaysText;
     days = daysContainer.getElementsByTagName('li');
     
-    createWorkShifts(firstWorkShift,monthDays)
-
+    
     if (month == nowMonth && year == nowYear){
         days = daysContainer.getElementsByTagName('li');
         days[monthPrefix + nowDateNumber - 1].classList.add('date-now');
     }
-    workDays.forEach(i=>{
+    arrayOfShifts[checkedShift].workDays.forEach(i=>{
         days = daysContainer.getElementsByTagName('li');
         days[monthPrefix+i-1].classList.add('workDays');
     })
-    workNights.forEach(i=>{
+    arrayOfShifts[checkedShift].workNights.forEach(i=>{
         days = daysContainer.getElementsByTagName('li');
         days[monthPrefix+i-1].classList.add('workNights');
     })
