@@ -1,4 +1,5 @@
 let nowDate = new Date(),
+    actualDate = new Date(),
     nowDateNumber = nowDate.getDate(),
     nowMonth = nowDate.getMonth(),
     nowYear = nowDate.getFullYear(),
@@ -64,23 +65,40 @@ let nowDate = new Date(),
     const shiftsArr2=[{day:1,shift:4},{day:1,shift:2},{day:1,shift:3},{day:1,shift:1}];
     console.log('shiftsArr2',shiftsArr2[0].day)
 
+console.log('localStorage.LocalShift====>',localStorage.LocalShift)
 if (localStorage.LocalShift){
     inputDates.forEach(e=>{
         if (e.value==localStorage.LocalShift){
             e.checked=true
-            firstWorkShift = shiftsArr[localStorage.LocalShift]
-            
+            // firstWorkShift = localStorage.LocalShift
+            checkedShift=localStorage.LocalShift
+            console.log('checkedShift====>0',checkedShift)
         }
     })
 
 } 
 
+// --------------   listen change of shifts
+inputShift.addEventListener('change',(e)=>{
+    let shift= e.target.value
+    console.log('shift====>',shift)
+    localStorage.LocalShift=shift;
+    // firstWorkShift.day = shiftsArr2[shift-1].day
+    // firstWorkShift.shift = shiftsArr2[shift-1].shift
+    checkedShift = localStorage.LocalShift*1
+    console.log('checkedShift====>1',checkedShift)
+    console.log('WorkShiftD====>',shiftsArr[4])
+    console.log('shiftLocal====>',localStorage.LocalShift)
+    correctDate(actualDate)
+  
+})
 
+// ===========
 
 function correctDate(date) {
-    if(nowDate.getMonth()!=8||nowDate.getFullYear()!=2023){
-        let now_Month=date.getMonth()
-        let now_Year=date.getFullYear()
+    console.log('date====>',date)
+        now_Month=date.getMonth()
+        now_Year=date.getFullYear()
         let correct_Date=new Date(now_Year,now_Month,1)
         let testDate1=new Date(2023,8,1)
         let monthDays = new Date(date.getFullYear(), now_Month+1, 0).getDate();
@@ -91,9 +109,12 @@ function correctDate(date) {
         DateCount=DateCount-(Math.floor(DateCount/12))*12
         
         let koof=DateCount
+        // let koof=2
         console.log('koofkoof',koof)
-        // --- отримання першої робочої зміни на задану дату
         
+        // --- отримання першої робочої зміни на задану дату
+        firstWorkShiftAct=firstWorkShift
+        console.log('firstWorkShiftActfirstWorkShiftAct',firstWorkShiftAct)
          for(i=0;i<koof;i++){
             if(firstWorkShiftAct.day+1<=3){
                 
@@ -118,19 +139,50 @@ function correctDate(date) {
         createArrayOfShifts(monthDays, firstWorkShiftAct,now_Month,now_Year)
         
     }
-}
+
 correctDate(nowDate)
+// add keys nexp and prev
+
+
+prev.onclick = function () {
+    let curDate = new Date(actualDate);
+
+    curDate.setMonth(curDate.getMonth() - 1);
+    console.log('curDategetYear',curDate.getFullYear())
+    console.log('curDategetMonth',curDate.getMonth())
+    console.log('curDategetDay',curDate.getDate())
+
+    actualDate=new Date(curDate)
+    correctDate(actualDate);
+}
+
+
+next.onclick = function () {
+    let curDate = new Date(actualDate);
+    console.log('curDategetMonth0',curDate.getMonth())
+
+    curDate.setMonth(curDate.getMonth() + 1);
+    curDate.setDate(1)
+    console.log('curDategetMonth1',curDate.getMonth())
+    actualDate=new Date(curDate)
+    correctDate(actualDate);
+
+    
+    
+}
+
 // ----------------- create array of shifts
-
-
-function createArrayOfShifts(monthDays, firstWorkShiftAct){
+function createArrayOfShifts(monthDays, firstWorkShiftAct,now_Month,now_Year){
     arrayOfShifts={1:{workDays:[],workNights:[]},2:{workDays:[],workNights:[]},3:{workDays:[],workNights:[]},4:{workDays:[],workNights:[]}}
         
     // ------------------create array of days
 
         let day=firstWorkShiftAct.day
         let shift=firstWorkShiftAct.shift
+        console.log('firstWorkShiftActshift',shift,day)
         let nightShift
+        let nightDay=day
+
         if(shift==1){
                     nightShift=2
                 }else if(shift==2){
@@ -140,11 +192,12 @@ function createArrayOfShifts(monthDays, firstWorkShiftAct){
                 }else  if(shift==4){
                     nightShift=3
                 }
-
+                console.log('nightShift',nightShift)
         
         for(i=1;i<=monthDays;i++){
             workDays[i]={day,shift}
             arrayOfShifts[shift].workDays.push(i)
+            arrayMonthDays[i]=shift
             if(day+1<=3){day=day+1}
             else 
                 if(shift==1){
@@ -164,38 +217,40 @@ function createArrayOfShifts(monthDays, firstWorkShiftAct){
        console.log('workDays====',workDays)
        // ------------------create array of nights
        for(i=1;i<=monthDays;i++){
-            workNights[i]={day,nightShift}
+            workNights[i]={nightDay,nightShift}
             arrayOfShifts[nightShift].workNights.push(i)
-            if(day+1<=3){day=day+1}
+            arrayMonthNights[i]=nightShift
+            if(nightDay+1<=3){nightDay=nightDay+1}
             else 
                 if(nightShift==1){
                     nightShift=3
-                    day=1
+                    nightDay=1
                 }else if(nightShift==2){
                     nightShift=4
-                    day=1
+                    nightDay=1
                 }else if(nightShift==3){
                     nightShift=2
-                    day=1
+                    nightDay=1
                 }else  if(nightShift==4){
                     nightShift=1
-                    day=1
+                    nightDay=1
                 }
         }
        console.log('workNights====',workNights)
-       console.log('arrayOfShifts====',arrayOfShifts[checkedShift])
-       setMonthCalendar(nowYear,nowMonth)
+       console.log('arrayOfShifts====',arrayOfShifts)
+       setMonthCalendar(now_Month,now_Year)
 
 
 };
 
 
-function setMonthCalendar(year,month) {
+function setMonthCalendar(month,year) {
     
     
     
         console.log(workDays)
         console.log(workNights)
+        console.log('checkedShift+1', checkedShift*1 + 1)
         let DaysHours=arrayOfShifts[checkedShift].workDays.length*11
         let NightsHours=arrayOfShifts[checkedShift].workNights.length*11
         let SummOfShifts=(arrayOfShifts[checkedShift].workNights.length)+(arrayOfShifts[checkedShift].workDays.length)
